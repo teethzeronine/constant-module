@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f14">
+<title>Constant Modul</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Constant Modul">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0b0f14;--card:#141b24;--card2:#1a2330;--line:#26334a;--txt:#e8eef5;--mut:#8a9bb0;--ok:#35d07f;--wait:#ffb020;--acc:#4aa3ff;--bad:#ff6b6b}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{padding:max(12px,env(safe-area-inset-top)) 12px max(28px,env(safe-area-inset-bottom))}
+.wrap{max-width:520px;margin:0 auto;display:grid;gap:12px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+h1{font-size:17px;margin:0;font-weight:650}
+h2{font-size:15px;margin:0;font-weight:650}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.row{display:flex;gap:8px;align-items:center}
+.between{justify-content:space-between}
+.grow{flex:1}
+.mut{color:var(--mut);font-size:13px}
+.hint{color:var(--mut);font-size:12.5px;line-height:1.45;margin:2px 0 0}
+.btn{appearance:none;border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:10px;padding:12px 14px;font-size:15px;font-weight:600;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:#04121f}
+.btn.danger{color:var(--bad);border-color:#4a2a31}
+.btn.sm{padding:7px 10px;font-size:13px}
+.btn[hidden]{display:none}
+label{display:grid;gap:6px;font-size:13px;color:var(--mut);margin-top:10px}
+input,textarea{width:100%;background:#0e141c;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 12px;font-size:20px;font-family:inherit}
+input:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:0}
+
+/* jam */
+#clock{font-size:clamp(40px,14vw,72px);font-weight:700;text-align:center;letter-spacing:1px;line-height:1.1}
+#clkSub{text-align:center;margin-top:4px}
+
+/* panel live */
+.live{border-width:2px}
+.live.active{border-color:var(--ok)}
+.live.wait{border-color:var(--wait)}
+.liveTop{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{width:40px;height:40px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-size:22px;font-weight:800}
+.chip{font-size:12px;font-weight:700;letter-spacing:.5px;padding:4px 9px;border-radius:99px;background:var(--card2);color:var(--mut)}
+.active .chip{background:rgba(53,208,127,.15);color:var(--ok)}
+.wait .chip{background:rgba(255,176,32,.15);color:var(--wait)}
+.big{font-size:clamp(46px,17vw,92px);font-weight:800;text-align:center;line-height:1.05;margin-top:10px}
+.active .big{color:var(--ok)}
+.wait .big{color:var(--wait)}
+.unit{text-align:center;color:var(--mut);font-size:14px;margin-top:2px}
+#lvSub2{text-align:center;margin-top:8px}
+
+/* kartu sub */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.rc{appearance:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:7px 2px;display:grid;gap:1px;justify-items:center;cursor:pointer;min-width:0}
+.rc .rl{font-size:17px;font-weight:800}
+.rc .rs{font-size:9.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--mut)}
+.rc .rv{font-size:11px}
+.rc .rd{font-size:10.5px;color:var(--mut)}
+.rc.active{border-color:var(--ok)}.rc.active .rs{color:var(--ok)}
+.rc.wait{border-color:var(--wait)}.rc.wait .rs{color:var(--wait)}
+.rc.sel{outline:2px solid var(--acc);outline-offset:1px}
+
+details summary{cursor:pointer;font-weight:650;font-size:15px}
+#toast{z-index:30;position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#222c3a;border:1px solid var(--line);padding:10px 14px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:.2s;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:grid;place-items:center;padding:20px;z-index:10}
+.modal[hidden]{display:none}
+.mbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;max-width:360px;width:100%}
+.mbox p{margin:0 0 14px;font-size:16px;line-height:1.45}
+textarea{font-size:14px;resize:vertical;word-break:break-all}
+.lock{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:max(16px,env(safe-area-inset-top)) 16px 28px}
+.lock[hidden]{display:none}
+.lbox{max-width:420px;margin:0 auto;display:grid;gap:12px;text-align:center}
+.lbox img{width:84px;height:84px;border-radius:18px;margin:8px auto 0}
+.lbox h1{font-size:22px}
+.lbox label{text-align:left}
+.devid{font-size:clamp(26px,9vw,38px);font-weight:800;letter-spacing:2px;color:var(--wait)}
+.lbox a.btn{text-decoration:none;display:grid;place-items:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Constant Modul</h1>
+    <div class="row">
+      <button class="btn sm primary" id="bInstall" hidden>Pasang aplikasi</button>
+      <button class="btn sm" id="bSound">Suara: Hidup</button>
+      <button class="btn sm" id="bWake">Layar nyala: Ya</button>
+    </div>
+  </header>
+
+  <section class="card">
+    <div id="clock" class="mono">00:00:00</div>
+    <div id="clkSub" class="mut">Jam perangkat</div>
+  </section>
+
+  <section class="card live empty" id="live">
+    <div class="liveTop">
+      <span class="badge" id="lvBadge">A</span>
+      <span class="chip" id="lvChip">KOSONG</span>
+      <span class="mut" id="lvInfo"></span>
+    </div>
+    <div class="big mono" id="lvMain">0.000</div>
+    <div class="unit" id="lvUnit">km</div>
+    <div class="mut" id="lvSub2"></div>
+  </section>
+
+  <section class="card">
+    <div class="row between">
+      <h2>Input Sub <span id="fSub">A</span></h2>
+      <button class="btn sm" id="bNext">Sub berikut ›</button>
+    </div>
+    <label>Kecepatan (km/jam)
+      <input id="fSpeed" inputmode="decimal" autocomplete="off" placeholder="mis. 40.5">
+    </label>
+    <label>Delay (menit), isi 0 untuk jadwalkan jam mulai
+      <input id="fDelay" inputmode="numeric" autocomplete="off" placeholder="0">
+    </label>
+    <label id="gStart">Jam mulai (HH:MM:SS)
+      <input id="fStart" class="mono" inputmode="numeric" autocomplete="off" placeholder="HH:MM:SS" maxlength="8">
+    </label>
+    <p class="hint" id="fHint"></p>
+    <div class="row" style="margin-top:12px">
+      <button class="btn primary grow" id="bGo">Mulai</button>
+      <button class="btn" id="bReset">Reset sub</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="row between" style="margin-bottom:10px">
+      <h2>Semua Sub</h2>
+      <span class="mut">ketuk untuk memilih</span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <details class="card" id="clkBox">
+    <summary>Set Jam</summary>
+    <label>Jam yang benar (HH:MM:SS)
+      <input id="cIn" class="mono" inputmode="numeric" autocomplete="off" placeholder="HH:MM:SS" maxlength="8">
+    </label>
+    <div class="row" style="margin-top:12px">
+      <button class="btn primary grow" id="cSet">Set jam sekarang</button>
+      <button class="btn" id="cDev">Jam perangkat</button>
+    </div>
+    <p class="hint">Tekan "Set jam sekarang" tepat saat jam acuan menunjuk waktu yang diisi. Jam ini dipakai untuk semua jadwal dan hitungan jarak.</p>
+  </details>
+
+  <div class="row">
+    <button class="btn danger grow" id="bAll">Reset semua sub</button>
+    <button class="btn" id="bTest">Tes bunyi</button>
+  </div>
+  <p class="hint" style="text-align:center">Data tersimpan di perangkat ini. Biarkan layar tetap menyala agar bunyi 3 detik sebelum start berfungsi.</p>
+  <p class="hint mono" id="licInfo" style="text-align:center"></p>
+</div>
+<div id="toast"></div>
+<div class="lock" id="lock">
+  <div class="lbox">
+    <img src="icon-192.png" alt="">
+    <h1>Constant Modul</h1>
+    <p class="mut" style="margin:0">Aplikasi terkunci. Aktivasi diperlukan satu kali untuk perangkat ini.</p>
+    <div class="mut">ID Perangkat</div>
+    <div class="devid mono" id="devId">-----</div>
+    <div class="row">
+      <button class="btn grow" id="lCopy">Salin ID</button>
+      <a class="btn primary grow" id="lWa" href="#" target="_blank" rel="noopener" hidden>Hubungi penjual</a>
+    </div>
+    <label>Kode aktivasi
+      <textarea id="lCode" rows="4" placeholder="Tempel kode aktivasi dari penjual" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+    </label>
+    <button class="btn primary" id="lGo">Aktifkan</button>
+    <p class="hint" id="lMsg"></p>
+  </div>
+</div>
+<div class="modal" id="modal" hidden><div class="mbox"><p id="mMsg"></p>
+  <div class="row"><button class="btn grow" id="mNo">Batal</button><button class="btn primary grow" id="mYes">Ya</button></div></div></div>
+
+<script>
+(()=>{
+'use strict';
+const N=10, KEY='rallySched.v1', MAXKM=99.99;
+let started=false;
+const $=id=>document.getElementById(id);
+const L=i=>String.fromCharCode(65+i);
+const pad=n=>String(n).padStart(2,'0');
+const blank=()=>({speed:0,delay:0,startAt:null,status:'empty',base:0,anchor:0});
+
+/* ---------- state ---------- */
+let S={routes:Array.from({length:N},blank),offset:0,sel:0,mute:false,wake:true};
+try{
+  const j=JSON.parse(localStorage.getItem(KEY)||'null');
+  if(j&&Array.isArray(j.routes)&&j.routes.length===N){
+    S.routes=j.routes.map(r=>Object.assign(blank(),r));
+    S.offset=+j.offset||0; S.sel=Math.min(N-1,Math.max(0,j.sel|0));
+    S.mute=!!j.mute; S.wake=j.wake!==false;
+  }
+}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+/* ---------- waktu (detik, jam induk = jam perangkat + offset) ---------- */
+const nowMs=()=>Date.now()+S.offset;
+const nowSec=()=>Math.floor(nowMs()/1000);
+const hms=sec=>{const d=new Date(sec*1000);return pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds())};
+const dur=s=>{s=Math.max(0,s);return pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)};
+const dist=(r,sec)=>r.status==='active'?r.base+r.speed/3600*Math.max(0,sec-r.anchor):r.base;
+function parseHMS(v){
+  const d=v.replace(/\D/g,''); if(d.length!==6) return null;
+  const h=+d.slice(0,2),m=+d.slice(2,4),s=+d.slice(4);
+  return (h<24&&m<60&&s<60)?[h,m,s]:null;
+}
+
+/* ---------- bunyi ---------- */
+let actx=null;
+function unlockAudio(){
+  try{
+    if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==='suspended') actx.resume();
+  }catch(e){}
+}
+function beep(ms){
+  if(S.mute) return;
+  try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){}
+  if(!actx) return;
+  try{
+    const t=actx.currentTime, o=actx.createOscillator(), g=actx.createGain();
+    o.type='square'; o.frequency.value=2800;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(0.3,t+0.005);
+    g.gain.setValueAtTime(0.3,t+ms/1000-0.01);
+    g.gain.linearRampToValueAtTime(0,t+ms/1000);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t); o.stop(t+ms/1000+0.02);
+  }catch(e){}
+}
+
+/* ---------- toast ---------- */
+let tt;
+function toast(m){
+  const t=$('toast'); t.textContent=m; t.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+/* ---------- konfirmasi dalam halaman (confirm() bawaan sering diblokir di APK/WebView) ---------- */
+function ask(msg,yes){
+  return new Promise(res=>{
+    $('mMsg').textContent=msg; $('mYes').textContent=yes||'Ya'; $('modal').hidden=false;
+    const done=v=>{ $('modal').hidden=true; $('mYes').onclick=null; $('mNo').onclick=null; res(v); };
+    $('mYes').onclick=()=>done(true); $('mNo').onclick=()=>done(false);
+  });
+}
+
+/* ---------- logika sub ---------- */
+function activate(i,atSec){
+  S.routes.forEach((r,j)=>{
+    if(j!==i&&r.status==='active'){ r.base=dist(r,atSec); r.status='stopped'; }
+  });
+  const r=S.routes[i]; r.status='active'; r.anchor=atSec;
+}
+function clearAll(){
+  S.routes=Array.from({length:N},blank); S.sel=0; save(); loadForm(); render();
+}
+function runSchedules(sec){
+  let changed=false;
+  S.routes.forEach((r,i)=>{ // jadwal kedaluwarsa (>6 jam terlewat) dibuang
+    if(r.status==='wait'&&sec-r.startAt>6*3600){ S.routes[i]=blank(); changed=true; toast('Jadwal sub '+L(i)+' kedaluwarsa dan dihapus'); }
+  });
+  const due=S.routes.map((r,i)=>({r,i})).filter(o=>o.r.status==='wait'&&sec>=o.r.startAt)
+    .sort((a,b)=>a.r.startAt-b.r.startAt);
+  due.forEach(o=>{ activate(o.i,o.r.startAt); changed=true; });
+  // batas 99.99 km -> reset semua (sama seperti kode Arduino)
+  const a=S.routes.findIndex(r=>r.status==='active');
+  if(a>=0&&dist(S.routes[a],sec)>=MAXKM){
+    clearAll(); beep(500); toast('Mencapai '+MAXKM+' km, semua sub di-reset'); return true;
+  }
+  if(changed) save();
+  return changed;
+}
+
+/* ---------- tampilan ---------- */
+function liveIndex(){
+  let i=S.routes.findIndex(r=>r.status==='active'); if(i>=0) return i;
+  let best=-1;
+  S.routes.forEach((r,j)=>{ if(r.status==='wait'&&(best<0||r.startAt<S.routes[best].startAt)) best=j; });
+  return best>=0?best:S.sel;
+}
+function render(){
+  const sec=nowSec();
+  $('clock').textContent=hms(sec);
+  $('clkSub').textContent=S.offset===0?'Jam perangkat':
+    'Disetel manual, selisih '+(S.offset>=0?'+':'')+(S.offset/1000).toFixed(1)+' dtk dari jam perangkat';
+
+  const i=liveIndex(), r=S.routes[i], live=$('live');
+  live.className='card live '+r.status;
+  $('lvBadge').textContent=L(i);
+  $('lvChip').textContent={empty:'KOSONG',wait:'STANDBY',active:'AKTIF',stopped:'SELESAI'}[r.status];
+  let main='0.000',unit='km',info='',sub2='';
+  if(r.status==='active'){
+    main=dist(r,sec).toFixed(3); info='Kec '+r.speed+' km/jam';
+    sub2='Mulai '+hms(r.startAt)+(r.delay>0?' · delay '+r.delay+' mnt':'');
+  }else if(r.status==='wait'){
+    main=dur(r.startAt-sec); unit='menuju mulai'; info='Kec '+r.speed+' km/jam';
+    sub2='Mulai '+hms(r.startAt)+' · bunyi 3× di 3 detik terakhir';
+  }else if(r.status==='stopped'){
+    main=r.base.toFixed(3); unit='km (sub selesai)'; info='Kec '+r.speed+' km/jam';
+  }else{
+    sub2='Belum ada data. Isi form di bawah.';
+  }
+  $('lvMain').textContent=main; $('lvUnit').textContent=unit;
+  $('lvInfo').textContent=info; $('lvSub2').textContent=sub2;
+
+  $('grid').innerHTML=S.routes.map((r,k)=>{
+    const st={empty:'Kosong',wait:'Standby',active:'Aktif',stopped:'Selesai'}[r.status];
+    const v=r.status==='empty'?'—':r.speed+' km/j';
+    const d=r.status==='empty'?'':(r.status==='wait'?hms(r.startAt):dist(r,sec).toFixed(3));
+    return '<button class="rc mono '+r.status+(k===S.sel?' sel':'')+'" data-i="'+k+'">'+
+      '<span class="rl">'+L(k)+'</span><span class="rs">'+st+'</span>'+
+      '<span class="rv">'+v+'</span><span class="rd">'+d+'</span></button>';
+  }).join('');
+}
+
+/* ---------- form ---------- */
+function formMode(){
+  const d=parseInt($('fDelay').value,10)||0;
+  $('gStart').style.display=d>0?'none':'';
+  $('bGo').textContent=d>0?'Mulai sekarang':'Jadwalkan mulai';
+  $('fHint').textContent=d>0
+    ?'Sub langsung berjalan. Jarak awal = kecepatan × delay ÷ 60.'
+    :'Sub menunggu jam mulai, lalu otomatis aktif dan menggantikan sub yang sedang berjalan.';
+}
+function loadForm(){
+  const r=S.routes[S.sel];
+  $('fSub').textContent=L(S.sel);
+  if(r.status==='empty'){ $('fSpeed').value=''; $('fDelay').value=''; $('fStart').value=''; }
+  else{
+    $('fSpeed').value=String(r.speed);
+    $('fDelay').value=String(r.delay);
+    $('fStart').value=r.delay>0?'':hms(r.startAt);
+  }
+  formMode();
+}
+async function submit(){
+  unlockAudio();
+  const i=S.sel;
+  const speed=parseFloat($('fSpeed').value.replace(',','.'));
+  const delay=parseInt($('fDelay').value,10)||0;
+  if(!(speed>0)){ toast('Isi kecepatan (km/jam) lebih dari 0'); $('fSpeed').focus(); return; }
+  if(delay<0){ toast('Delay tidak boleh negatif'); return; }
+  let at=null;
+  if(delay===0){
+    const t=parseHMS($('fStart').value);
+    if(!t){ toast('Jam mulai harus HH:MM:SS yang valid'); $('fStart').focus(); return; }
+    const d=new Date(nowMs()); d.setHours(t[0],t[1],t[2],0);
+    at=Math.floor(d.getTime()/1000);
+    const late=nowSec()-at;
+    if(late>0&&!(await ask('Jam mulai sudah lewat '+late+' detik. Mulai langsung dan hitung jarak dari jam itu?','Mulai'))) return;
+  }
+  // hanya sub yang sedang AKTIF yang perlu konfirmasi; sub standby/selesai langsung dikoreksi
+  if(S.routes[i].status==='active'&&!(await ask('Sub '+L(i)+' sedang aktif. Timpa dengan data baru?','Timpa'))) return;
+
+  const nr=blank(); nr.speed=speed; nr.delay=delay;
+  if(delay>0){
+    const s=nowSec();
+    nr.base=speed*delay/60; nr.startAt=s; nr.status='stopped';
+    S.routes[i]=nr; activate(i,s);
+  }else{
+    nr.startAt=at; nr.status='wait'; S.routes[i]=nr;
+    runSchedules(nowSec());
+  }
+  save(); render();
+  toast('Sub '+L(i)+(S.routes[i].status==='wait'?' dijadwalkan':' dimulai'));
+}
+
+/* ---------- loop per detik ---------- */
+let lastSec=-1;
+function onSecond(sec){
+  let b=false;
+  S.routes.forEach(r=>{ if(r.status==='wait'){ const d=r.startAt-sec; if(d>=1&&d<=3) b=true; } });
+  if(b) beep(200);
+  render();
+}
+function tick(){
+  if(!started) return;
+  const sec=nowSec();
+  const changed=runSchedules(sec);
+  if(sec!==lastSec){ lastSec=sec; onSecond(sec); }
+  else if(changed) render();
+}
+
+/* ---------- layar tetap menyala ---------- */
+let wl=null, touched=false;
+async function setWake(on){
+  try{
+    if(on){ if(wl) return; wl=await navigator.wakeLock.request('screen'); wl.addEventListener('release',()=>{wl=null}); }
+    else if(wl){ await wl.release(); wl=null; }
+  }catch(e){ wl=null; }
+}
+function uiToggles(){
+  $('bSound').textContent='Suara: '+(S.mute?'Mati':'Hidup');
+  $('bWake').textContent='Layar nyala: '+(S.wake?'Ya':'Tidak');
+}
+
+/* ---------- event ---------- */
+function bindTime(el){
+  el.addEventListener('input',()=>{
+    const d=el.value.replace(/\D/g,'').slice(0,6);
+    el.value=d.length>4?d.slice(0,2)+':'+d.slice(2,4)+':'+d.slice(4):d.length>2?d.slice(0,2)+':'+d.slice(2):d;
+  });
+}
+bindTime($('fStart')); bindTime($('cIn'));
+$('fDelay').addEventListener('input',formMode);
+$('bGo').addEventListener('click',submit);
+$('bNext').addEventListener('click',()=>{ S.sel=(S.sel+1)%N; save(); loadForm(); render(); $('fSpeed').focus(); });
+$('bReset').addEventListener('click',async()=>{
+  if(S.routes[S.sel].status==='active'&&!(await ask('Reset sub '+L(S.sel)+' yang sedang aktif?','Reset'))) return;
+  S.routes[S.sel]=blank(); save(); loadForm(); render(); toast('Sub '+L(S.sel)+' di-reset');
+});
+$('bAll').addEventListener('click',async()=>{ if(await ask('Reset SEMUA sub? Semua data dan jarak akan dihapus.','Reset semua')){ clearAll(); toast('Semua sub di-reset'); } });
+$('grid').addEventListener('click',e=>{
+  const b=e.target.closest('.rc'); if(!b) return;
+  S.sel=+b.dataset.i; save(); loadForm(); render();
+});
+$('bTest').addEventListener('click',()=>{ unlockAudio(); beep(300); if(S.mute) toast('Suara sedang dimatikan'); });
+$('bSound').addEventListener('click',()=>{ unlockAudio(); S.mute=!S.mute; save(); uiToggles(); });
+$('bWake').addEventListener('click',()=>{ S.wake=!S.wake; save(); uiToggles(); setWake(S.wake); });
+
+function busy(){ return S.routes.some(r=>r.status==='active'||r.status==='wait'); }
+const CLKWARN='Ada sub aktif/menunggu. Mengubah jam menggeser hitungan. Lanjut?';
+$('cSet').addEventListener('click',async()=>{
+  const t=parseHMS($('cIn').value);
+  if(!t){ toast('Isi jam yang valid (HH:MM:SS)'); return; }
+  if(busy()&&!(await ask(CLKWARN,'Lanjut'))) return;
+  const d=new Date(); d.setHours(t[0],t[1],t[2],0);
+  S.offset=d.getTime()-Date.now(); save(); render(); toast('Jam disetel');
+});
+$('cDev').addEventListener('click',async()=>{
+  if(S.offset===0){ toast('Sudah memakai jam perangkat'); return; }
+  if(busy()&&!(await ask(CLKWARN,'Lanjut'))) return;
+  S.offset=0; save(); render(); toast('Memakai jam perangkat');
+});
+
+document.addEventListener('pointerdown',()=>{
+  unlockAudio();
+  if(!touched){ touched=true; if(S.wake) setWake(true); }
+},{passive:true});
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'){ tick(); if(S.wake&&touched) setWake(true); }
+});
+
+/* ---------- PWA: service worker + tombol pasang ---------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+let installEvt=null;
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; $('bInstall').hidden=false; });
+window.addEventListener('appinstalled',()=>{ installEvt=null; $('bInstall').hidden=true; toast('Aplikasi terpasang'); });
+$('bInstall').addEventListener('click',async()=>{
+  if(!installEvt) return;
+  installEvt.prompt();
+  try{ await installEvt.userChoice; }catch(e){}
+  installEvt=null; $('bInstall').hidden=true;
+});
+
+/* ---------- lisensi / aktivasi (kode terikat ke satu perangkat) ---------- */
+const DEVKEY='cmDeviceId', LICKEY='cmLicense', CFGKEY='cmConfig';
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+function getDeviceId(){
+  let v=lsGet(DEVKEY);
+  if(!v||!/^[A-HJ-NP-Z2-9]{10}$/.test(v)){
+    const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', b=new Uint8Array(10);
+    crypto.getRandomValues(b); v='';
+    for(const x of b) v+=A[x%32];
+    lsSet(DEVKEY,v);
+  }
+  return v;
+}
+const fmtId=v=>v.slice(0,5)+'-'+v.slice(5);
+const b64u2bytes=s=>{
+  s=s.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4) s+='=';
+  const bin=atob(s), a=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) a[i]=bin.charCodeAt(i);
+  return a;
+};
+let cfgState='';
+async function loadConfig(){
+  try{
+    const r=await fetch('config.json',{cache:'no-store'});
+    if(r.ok){
+      const c=await r.json(); lsSet(CFGKEY,JSON.stringify(c));
+      cfgState=(c&&c.publicKey&&c.publicKey.x&&c.publicKey.y)?'ok':'kosong';
+      return c;
+    }
+    cfgState='http '+r.status;
+  }catch(e){ cfgState='gagal'; }
+  try{ const c=JSON.parse(lsGet(CFGKEY)||'null'); if(c) cfgState+=' (salinan lama)'; return c; }catch(e){ return null; }
+}
+function nokeyMsg(){
+  if(cfgState==='kosong') return 'config.json sudah termuat tetapi kunci publiknya masih kosong. Penjual perlu mengganti config.json dengan file dari alat pembuat kode, lalu mengunggahnya ke GitHub.';
+  if(cfgState.indexOf('http 404')===0) return 'config.json tidak ditemukan. Pastikan file config.json ada satu folder dengan index.html di GitHub.';
+  return 'Konfigurasi belum bisa dimuat ('+(cfgState||'tidak diketahui')+'). Hubungkan internet lalu buka ulang, atau hubungi penjual.';
+}
+async function verifyCode(code,devId,cfg){
+  try{
+    const pk=cfg&&cfg.publicKey;
+    if(!pk||!pk.x||!pk.y) return 'nokey';
+    if(!(window.crypto&&crypto.subtle)) return 'nocrypto';
+    const key=await crypto.subtle.importKey('jwk',{kty:'EC',crv:'P-256',x:pk.x,y:pk.y,ext:true},
+      {name:'ECDSA',namedCurve:'P-256'},false,['verify']);
+    const ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},key,
+      b64u2bytes(code.replace(/\s+/g,'')),new TextEncoder().encode('CM1|'+devId));
+    return ok?'ok':'bad';
+  }catch(e){ return 'bad'; }
+}
+const LMSG={
+  nocrypto:'Aktivasi butuh koneksi aman (HTTPS). Buka dari alamat https atau dari aplikasi yang sudah terpasang.',
+  bad:'Kode tidak cocok untuk perangkat ini. Pastikan kode ditempel lengkap dan penjual memakai ID perangkat yang sama dengan yang tampil di sini.'
+};
+const lmsg=t=>{ $('lMsg').textContent=t; };
+function unlock(devId){
+  $('lock').hidden=true;
+  $('licInfo').textContent='Lisensi aktif · ID perangkat '+fmtId(devId);
+  startApp();
+}
+async function gate(){
+  const devId=getDeviceId();
+  $('devId').textContent=fmtId(devId);
+  let cfg=await loadConfig();
+  const wa=cfg?String(cfg.wa||'').replace(/\D/g,''):'';
+  if(wa){
+    const text='Halo'+(cfg.namaPenjual?' '+cfg.namaPenjual:'')+', saya mau aktivasi Constant Modul. ID Perangkat saya: '+fmtId(devId);
+    $('lWa').href='https://wa.me/'+wa+'?text='+encodeURIComponent(text); $('lWa').hidden=false;
+  }
+  $('lCopy').addEventListener('click',async()=>{
+    try{ await navigator.clipboard.writeText(fmtId(devId)); toast('ID disalin'); }
+    catch(e){ toast('Catat ID: '+fmtId(devId)); }
+  });
+  $('lGo').addEventListener('click',async()=>{
+    const c=$('lCode').value.replace(/\s+/g,'');
+    if(!c){ lmsg('Tempel kode aktivasi dulu.'); return; }
+    lmsg('Memeriksa...');
+    if(!cfg||!cfg.publicKey) cfg=await loadConfig();
+    const r=await verifyCode(c,devId,cfg);
+    if(r==='ok'){ lsSet(LICKEY,c); unlock(devId); toast('Aplikasi diaktifkan'); }
+    else lmsg(r==='nokey'?nokeyMsg():(LMSG[r]||LMSG.bad));
+  });
+  const saved=lsGet(LICKEY);
+  if(saved){
+    const r=await verifyCode(saved,devId,cfg);
+    if(r==='ok'){ unlock(devId); return; }
+    if(r==='nokey') lmsg(nokeyMsg()); else if(r==='nocrypto') lmsg(LMSG[r]);
+  }
+}
+
+/* ---------- mulai ---------- */
+function startApp(){ if(started) return; started=true; uiToggles(); loadForm(); render(); setInterval(tick,100); }
+gate();
+})();
+</script>
+</body>
+</html>

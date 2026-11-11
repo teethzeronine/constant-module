@@ -1,0 +1,10 @@
+{
+  "publicKey": {
+    "kty": "EC",
+    "crv": "P-256",
+    "x": "UuRocSi2tkwo9P2ZurEe4uBI19c_SHV3THXfWgMWOE4",
+    "y": "tW0RUEJKTz814oC_WjVk9yUMNz-9XWwBAK9mJl1pZOQ"
+  },
+  "wa": "628165417696",
+  "namaPenjual": "AbeOki"
+}
