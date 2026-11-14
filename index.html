@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  Constant Modul
+  Hak Cipta (c) 2026 AbeOki. Semua hak dilindungi.
+  Penggunaan hanya dengan kode aktivasi yang sah dan tunduk pada Syarat Lisensi di dalam aplikasi.
+  Dilarang menyalin, memodifikasi, menyebarkan, atau menjual ulang tanpa izin tertulis.
+-->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -84,6 +90,15 @@ textarea{font-size:14px;resize:vertical;word-break:break-all}
 .lbox label{text-align:left}
 .devid{font-size:clamp(26px,9vw,38px);font-weight:800;letter-spacing:2px;color:var(--wait)}
 .lbox a.btn{text-decoration:none;display:grid;place-items:center}
+.lbox a.btn[hidden]{display:none}
+#terms{z-index:40}
+#terms .mbox{max-width:520px;max-height:85vh;overflow:auto;text-align:left}
+#terms h3{margin:0 0 4px;font-size:16px}
+#terms ol{padding-left:20px;margin:10px 0;font-size:13.5px;line-height:1.5}
+#terms li{margin-bottom:8px}
+#terms .cp{margin:0 0 6px;color:var(--mut);font-size:13px}
+.cpy{text-align:center;color:var(--mut);font-size:12px;margin:2px 0 0}
+.cpy a{color:var(--acc)}
 </style>
 </head>
 <body>
@@ -162,6 +177,7 @@ textarea{font-size:14px;resize:vertical;word-break:break-all}
   </div>
   <p class="hint" style="text-align:center">Data tersimpan di perangkat ini. Biarkan layar tetap menyala agar bunyi 3 detik sebelum start berfungsi.</p>
   <p class="hint mono" id="licInfo" style="text-align:center"></p>
+  <p class="cpy">&copy; 2026 AbeOki. Semua hak dilindungi. <a href="#" id="fTerms">Syarat Lisensi</a></p>
 </div>
 <div id="toast"></div>
 <div class="lock" id="lock">
@@ -179,20 +195,42 @@ textarea{font-size:14px;resize:vertical;word-break:break-all}
     <label>Kode aktivasi
       <textarea id="lCode" rows="3" placeholder="Tempel kode aktivasi dari admin" autocomplete="off" autocapitalize="off" spellcheck="false" class="mono"></textarea>
     </label>
+    <p class="hint" style="margin:0">Dengan menekan Aktifkan, Anda menyetujui <a href="#" id="lTerms" style="color:var(--acc)">Syarat Lisensi</a>.</p>
     <button class="btn primary" id="lGo">Aktifkan</button>
     <p class="hint" id="lMsg"></p>
     <p class="hint mono" id="lFp"></p>
+    <p class="cpy">&copy; 2026 AbeOki. Semua hak dilindungi.</p>
   </div>
 </div>
 <div class="modal" id="modal" hidden><div class="mbox"><p id="mMsg"></p>
   <div class="row"><button class="btn grow" id="mNo">Batal</button><button class="btn primary grow" id="mYes">Ya</button></div></div></div>
+
+<div class="modal" id="terms" hidden><div class="mbox">
+  <h3>Syarat Lisensi Penggunaan Constant Modul</h3>
+  <p class="cp">Hak Cipta &copy; 2026 AbeOki. Semua hak dilindungi.</p>
+  <ol>
+    <li><b>Hak cipta.</b> Constant Modul, meliputi kode program, tampilan, teks, ikon, dan dokumentasinya, adalah ciptaan yang dilindungi hak cipta milik AbeOki ("Admin"). Penggunaan aplikasi tidak mengalihkan hak cipta kepada Pengguna.</li>
+    <li><b>Lisensi.</b> Dengan kode aktivasi yang sah, Pengguna mendapat lisensi terbatas, non-eksklusif, dan tidak dapat dipindahtangankan untuk memakai aplikasi pada <b>satu perangkat</b>, untuk keperluan sendiri.</li>
+    <li><b>Satu kode, satu perangkat.</b> Kode aktivasi terikat ke ID perangkat dan tidak boleh dibagikan, dipinjamkan, atau dijual. Penggantian perangkat dilakukan melalui Admin dengan mengirim ID perangkat baru, sesuai kebijakan Admin.</li>
+    <li><b>Masa percobaan.</b> Kode percobaan memberi akses sampai tanggal berakhir yang tertera. Setelah itu aplikasi terkunci sampai Pengguna memasukkan kode permanen. Laporan bug selama percobaan dipersilakan melalui tombol Lapor bug.</li>
+    <li><b>Larangan.</b> Pengguna dilarang: (a) menyalin, memperbanyak, menyebarkan, atau menjual ulang aplikasi atau bagiannya; (b) mengubah, menerjemahkan, atau membuat karya turunan; (c) membongkar, merekayasa balik, atau menonaktifkan atau mengakali pengecekan lisensi; (d) membuat, memperdagangkan, atau memakai kode aktivasi yang tidak diterbitkan Admin; (e) menghapus keterangan hak cipta.</li>
+    <li><b>Pelanggaran.</b> Admin dapat mencabut lisensi tanpa pengembalian biaya dan menempuh upaya hukum sesuai peraturan perundang-undangan yang berlaku, termasuk Undang-Undang Hak Cipta.</li>
+    <li><b>Pembaruan dan dukungan.</b> Pembaruan dan bantuan diberikan sesuai kebijaksanaan Admin dan tidak dijanjikan untuk jangka waktu tertentu. "Permanen" berarti lisensi tidak dibatasi waktu untuk perangkat yang terdaftar, selama Pengguna mematuhi syarat ini.</li>
+    <li><b>Tanpa jaminan.</b> Aplikasi diberikan "sebagaimana adanya". Admin tidak menjamin aplikasi bebas dari kesalahan atau hasilnya sama dengan perhitungan resmi panitia. Pengguna bertanggung jawab memeriksa hasil dengan jam dan data resmi acara.</li>
+    <li><b>Data.</b> Pengaturan dan data rute disimpan di perangkat Pengguna. Aplikasi tidak mengirim data rute ke Admin. ID perangkat dikirim hanya jika Pengguna sendiri mengirimkannya, misalnya untuk aktivasi atau laporan bug.</li>
+    <li><b>Perubahan syarat.</b> Admin dapat memperbarui syarat ini. Versi yang berlaku adalah yang tercantum di aplikasi.</li>
+    <li><b>Hukum yang berlaku.</b> Syarat ini tunduk pada hukum Republik Indonesia.</li>
+  </ol>
+  <p class="hint">Dengan menekan Aktifkan atau memakai aplikasi, Pengguna menyatakan telah membaca dan menyetujui syarat ini.</p>
+  <div class="row"><button class="btn primary grow" id="tClose">Tutup</button></div>
+</div></div>
 
 <script>
 (()=>{
 'use strict';
 const N=10, KEY='rallySched.v1', MAXKM=99.99;
 let started=false, locked=false, lic=null, devRef='', cfgRef=null;
-const APP_VER='1.2';
+const APP_VER='1.3';
 const $=id=>document.getElementById(id);
 const L=i=>String.fromCharCode(65+i);
 const pad=n=>String(n).padStart(2,'0');
@@ -649,6 +687,12 @@ $('bBug').addEventListener('click',()=>{
     '\n\nYang terjadi:\n\nLangkah sampai muncul:\n\nYang seharusnya:\n';
   window.open('https://wa.me/'+wa+'?text='+encodeURIComponent(text),'_blank','noopener');
 });
+
+/* ---------- syarat lisensi ---------- */
+const openTerms=e=>{ if(e&&e.preventDefault) e.preventDefault(); $('terms').hidden=false; };
+$('lTerms').addEventListener('click',openTerms);
+$('fTerms').addEventListener('click',openTerms);
+$('tClose').addEventListener('click',()=>{ $('terms').hidden=true; });
 
 /* ---------- mulai ---------- */
 function startApp(){ if(started) return; started=true; uiToggles(); loadForm(); render(); setInterval(tick,100); }
