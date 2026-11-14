@@ -10,7 +10,7 @@ Aplikasi web satu halaman untuk **regularity rally**: menjadwalkan sub A–J, la
 - **10 sub (A–J)**, masing-masing menyimpan kecepatan, jam mulai, dan jarak.
 - **Dua mode input**
   - **Jadwalkan mulai**: isi delay `0`, lalu isi jam mulai. Sub standby dan aktif otomatis pada jam tersebut.
-  - **Mulai sekarang**: isi delay lebih dari `0` (menit). Jarak awal = `kecepatan × delay ÷ 60`.
+  - **Mulai sekarang**: isi delay lebih dari `0` (menit). 
 - **Hitung jarak real-time** dengan resolusi meter (3 desimal km).
 - **Bunyi hitung mundur** 3 detik sebelum start + **alarm start** (3 nada + getar + kilat hijau).
 - **Jam master manual** (`Set Jam`) untuk mencocokkan jam acuan juri.
