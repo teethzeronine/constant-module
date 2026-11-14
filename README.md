@@ -2,7 +2,7 @@
 
 Aplikasi web satu halaman untuk **regularity rally**: menjadwalkan sub A–J, lalu menghitung jarak tempuh secara real-time dari kecepatan dan jam mulai. Bisa dipasang sebagai aplikasi (PWA) dan bekerja offline setelah dibuka sekali.
 
-- Situs: <https://teethzeronine.github.io/constant-modul/>
+- Situs: <https://teethzeronine.github.io/constant-module/>
 - Versi dokumen ini: **1.3**
 
 ## Fitur
