@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0f14">
-<meta name="color-scheme" content="dark">
-<meta name="description" content="Constant Modul - penjadwal dan penghitung jarak sub regularity rally. Bekerja offline.">
-<meta name="format-detection" content="telephone=no">
 <title>Constant Modul</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -33,16 +30,13 @@ h2{font-size:15px;margin:0;font-weight:650}
 .hint{color:var(--mut);font-size:12.5px;line-height:1.45;margin:2px 0 0}
 .btn{appearance:none;border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:10px;padding:12px 14px;font-size:15px;font-weight:600;cursor:pointer}
 .btn:active{transform:translateY(1px)}
-.btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .btn.primary{background:var(--acc);border-color:var(--acc);color:#04121f}
 .btn.danger{color:var(--bad);border-color:#4a2a31}
 .btn.sm{padding:7px 10px;font-size:13px}
 .btn[hidden]{display:none}
-.btn[aria-pressed="false"]{color:var(--mut)}
 label{display:grid;gap:6px;font-size:13px;color:var(--mut);margin-top:10px}
-input,textarea{width:100%;min-width:0;background:#0e141c;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 12px;font-size:20px;font-family:inherit}
+input,textarea{width:100%;background:#0e141c;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 12px;font-size:20px;font-family:inherit}
 input:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:0}
-input::placeholder,textarea::placeholder{color:#5a6b81}
 
 /* jam */
 #clock{font-size:clamp(40px,14vw,72px);font-weight:700;text-align:center;letter-spacing:1px;line-height:1.1}
@@ -62,22 +56,14 @@ input::placeholder,textarea::placeholder{color:#5a6b81}
 .wait .big{color:var(--wait)}
 .unit{text-align:center;color:var(--mut);font-size:14px;margin-top:2px}
 #lvSub2{text-align:center;margin-top:8px}
-#lvStop{margin-left:auto}
-.live.flash{animation:liveFlash .42s ease-in-out 4}
-@keyframes liveFlash{0%,100%{background:var(--card)}50%{background:rgba(53,208,127,.22)}}
-@media (prefers-reduced-motion:reduce){
-  .live.flash{animation:none;border-color:var(--ok)}
-  #toast{transition:none}
-}
 
 /* kartu sub */
 .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.rc{appearance:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:7px 2px;display:grid;gap:1px;justify-items:center;cursor:pointer;min-width:0;min-height:58px}
-.rc:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.rc{appearance:none;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:7px 2px;display:grid;gap:1px;justify-items:center;cursor:pointer;min-width:0}
 .rc .rl{font-size:17px;font-weight:800}
 .rc .rs{font-size:9.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--mut)}
-.rc .rv{font-size:11px;white-space:nowrap}
-.rc .rd{font-size:10.5px;color:var(--mut);white-space:nowrap}
+.rc .rv{font-size:11px}
+.rc .rd{font-size:10.5px;color:var(--mut)}
 .rc.active{border-color:var(--ok)}.rc.active .rs{color:var(--ok)}
 .rc.wait{border-color:var(--wait)}.rc.wait .rs{color:var(--wait)}
 .rc.sel{outline:2px solid var(--acc);outline-offset:1px}
@@ -89,7 +75,7 @@ details summary{cursor:pointer;font-weight:650;font-size:15px}
 .modal[hidden]{display:none}
 .mbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;max-width:360px;width:100%}
 .mbox p{margin:0 0 14px;font-size:16px;line-height:1.45}
-textarea{font-size:16px;resize:vertical;word-break:break-all}
+textarea{font-size:14px;resize:vertical;word-break:break-all}
 .lock{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:max(16px,env(safe-area-inset-top)) 16px 28px}
 .lock[hidden]{display:none}
 .lbox{max-width:420px;margin:0 auto;display:grid;gap:12px;text-align:center}
@@ -101,14 +87,14 @@ textarea{font-size:16px;resize:vertical;word-break:break-all}
 </style>
 </head>
 <body>
-<div class="wrap" role="main">
+<div class="wrap">
 
   <header>
     <h1>Constant Modul</h1>
     <div class="row">
       <button class="btn sm primary" id="bInstall" hidden>Pasang aplikasi</button>
-      <button class="btn sm" id="bSound" aria-pressed="true">Suara: Hidup</button>
-      <button class="btn sm" id="bWake" aria-pressed="true">Layar nyala: Ya</button>
+      <button class="btn sm" id="bSound">Suara: Hidup</button>
+      <button class="btn sm" id="bWake">Layar nyala: Ya</button>
     </div>
   </header>
 
@@ -122,7 +108,6 @@ textarea{font-size:16px;resize:vertical;word-break:break-all}
       <span class="badge" id="lvBadge">A</span>
       <span class="chip" id="lvChip">KOSONG</span>
       <span class="mut" id="lvInfo"></span>
-      <button class="btn sm" id="lvStop" hidden>Hentikan</button>
     </div>
     <div class="big mono" id="lvMain">0.000</div>
     <div class="unit" id="lvUnit">km</div>
@@ -130,30 +115,24 @@ textarea{font-size:16px;resize:vertical;word-break:break-all}
   </section>
 
   <section class="card">
-    <form id="form" novalidate>
-      <div class="row between">
-        <h2>Input Sub <span id="fSub">A</span></h2>
-        <button class="btn sm" id="bNext" type="button">Sub berikut ›</button>
-      </div>
-      <label for="fSpeed">Kecepatan (km/jam)
-        <input id="fSpeed" type="text" inputmode="decimal" enterkeyhint="next" autocomplete="off" placeholder="mis. 40.5">
-      </label>
-      <label for="fDelay">Delay (menit), isi 0 untuk jadwalkan jam mulai
-        <input id="fDelay" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="0">
-      </label>
-      <div id="gStart">
-        <label for="fStart">Jam mulai (HH:MM:SS)</label>
-        <div class="row" style="margin-top:6px">
-          <input id="fStart" class="mono" type="text" inputmode="numeric" enterkeyhint="done" autocomplete="off" placeholder="HH:MM:SS" maxlength="8">
-          <button class="btn sm" id="bNow" type="button">Sekarang</button>
-        </div>
-      </div>
-      <p class="hint" id="fHint"></p>
-      <div class="row" style="margin-top:12px">
-        <button class="btn primary grow" id="bGo" type="submit">Mulai</button>
-        <button class="btn" id="bReset" type="button">Reset sub</button>
-      </div>
-    </form>
+    <div class="row between">
+      <h2>Input Sub <span id="fSub">A</span></h2>
+      <button class="btn sm" id="bNext">Sub berikut ›</button>
+    </div>
+    <label>Kecepatan (km/jam)
+      <input id="fSpeed" inputmode="decimal" autocomplete="off" placeholder="mis. 40.5">
+    </label>
+    <label>Delay (menit), isi 0 untuk jadwalkan jam mulai
+      <input id="fDelay" inputmode="numeric" autocomplete="off" placeholder="0">
+    </label>
+    <label id="gStart">Jam mulai (HH:MM:SS)
+      <input id="fStart" class="mono" inputmode="numeric" autocomplete="off" placeholder="HH:MM:SS" maxlength="8">
+    </label>
+    <p class="hint" id="fHint"></p>
+    <div class="row" style="margin-top:12px">
+      <button class="btn primary grow" id="bGo">Mulai</button>
+      <button class="btn" id="bReset">Reset sub</button>
+    </div>
   </section>
 
   <section class="card">
@@ -170,22 +149,21 @@ textarea{font-size:16px;resize:vertical;word-break:break-all}
       <input id="cIn" class="mono" inputmode="numeric" autocomplete="off" placeholder="HH:MM:SS" maxlength="8">
     </label>
     <div class="row" style="margin-top:12px">
-      <button class="btn primary grow" id="cSet" type="button">Set jam sekarang</button>
-      <button class="btn" id="cDev" type="button">Jam perangkat</button>
+      <button class="btn primary grow" id="cSet">Set jam sekarang</button>
+      <button class="btn" id="cDev">Jam perangkat</button>
     </div>
-    <p class="hint">Tekan "Set jam sekarang" tepat saat jam acuan menunjuk waktu yang diisi. Jam ini dipakai untuk semua jadwal dan hitungan jarak. Mengikuti rumus modul: jam dimajukan menambah jarak sub aktif, jam dimundurkan tidak mengurangi jarak.</p>
+    <p class="hint">Tekan "Set jam sekarang" tepat saat jam acuan menunjuk waktu yang diisi. Jam ini dipakai untuk semua jadwal dan hitungan jarak.</p>
   </details>
 
   <div class="row">
-    <button class="btn danger grow" id="bAll" type="button">Reset semua sub</button>
-    <button class="btn" id="bTest" type="button">Tes bunyi</button>
-    <button class="btn" id="bBug" type="button">Lapor bug</button>
+    <button class="btn danger grow" id="bAll">Reset semua sub</button>
+    <button class="btn" id="bTest">Tes bunyi</button>
+    <button class="btn" id="bBug">Lapor bug</button>
   </div>
   <p class="hint" style="text-align:center">Data tersimpan di perangkat ini. Biarkan layar tetap menyala agar bunyi 3 detik sebelum start berfungsi.</p>
   <p class="hint mono" id="licInfo" style="text-align:center"></p>
-  <p class="hint mono" id="verInfo" style="text-align:center"></p>
 </div>
-<div id="toast" role="status" aria-live="polite"></div>
+<div id="toast"></div>
 <div class="lock" id="lock">
   <div class="lbox">
     <img src="icon-192.png" alt="">
@@ -199,25 +177,22 @@ textarea{font-size:16px;resize:vertical;word-break:break-all}
       <a class="btn primary grow" id="lWa" href="#" target="_blank" rel="noopener" hidden>Hubungi Admin</a>
     </div>
     <label>Kode aktivasi
-      <textarea id="lCode" rows="2" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" class="mono"></textarea>
+      <textarea id="lCode" rows="3" placeholder="Tempel kode aktivasi dari admin" autocomplete="off" autocapitalize="off" spellcheck="false" class="mono"></textarea>
     </label>
     <button class="btn primary" id="lGo">Aktifkan</button>
     <p class="hint" id="lMsg"></p>
     <p class="hint mono" id="lFp"></p>
-    <p class="hint">ID perangkat tersimpan di browser ini. Jangan hapus data situs/aplikasi agar lisensi tidak hilang.</p>
   </div>
 </div>
 <div class="modal" id="modal" hidden><div class="mbox"><p id="mMsg"></p>
   <div class="row"><button class="btn grow" id="mNo">Batal</button><button class="btn primary grow" id="mYes">Ya</button></div></div></div>
-<noscript><p class="hint" style="text-align:center">Aplikasi ini memerlukan JavaScript. Aktifkan JavaScript lalu buka ulang.</p></noscript>
 
 <script>
 (()=>{
 'use strict';
 const N=10, KEY='rallySched.v1', MAXKM=99.99;
-const MAX_SPEED=300, MAX_DELAY=1440, LATE_LIMIT=6*3600, LATE_SOFT=5;
 let started=false, locked=false, lic=null, devRef='', cfgRef=null;
-const APP_VER='1.3';
+const APP_VER='1.2';
 const $=id=>document.getElementById(id);
 const L=i=>String.fromCharCode(65+i);
 const pad=n=>String(n).padStart(2,'0');
@@ -228,17 +203,7 @@ let S={routes:Array.from({length:N},blank),offset:0,sel:0,mute:false,wake:true};
 try{
   const j=JSON.parse(localStorage.getItem(KEY)||'null');
   if(j&&Array.isArray(j.routes)&&j.routes.length===N){
-    S.routes=j.routes.map(r=>{
-      const b=Object.assign(blank(),r);
-      b.speed=Math.max(0,Math.min(MAX_SPEED,+b.speed||0));
-      b.delay=Math.max(0,Math.min(MAX_DELAY,Math.round(+b.delay||0)));
-      b.base=Math.max(0,+b.base||0);
-      b.anchor=Math.round(+b.anchor||0);
-      b.startAt=(b.startAt===null||b.startAt===undefined)?null:Math.round(+b.startAt);
-      if(!['empty','wait','active','stopped'].includes(b.status)) b.status='empty';
-      if(b.status!=='empty'&&(b.speed<=0||b.startAt===null)) b.status='empty';
-      return b;
-    });
+    S.routes=j.routes.map(r=>Object.assign(blank(),r));
     S.offset=+j.offset||0; S.sel=Math.min(N-1,Math.max(0,j.sel|0));
     S.mute=!!j.mute; S.wake=j.wake!==false;
   }
@@ -249,70 +214,43 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const nowMs=()=>Date.now()+S.offset;
 const nowSec=()=>Math.floor(nowMs()/1000);
 const hms=sec=>{const d=new Date(sec*1000);return pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds())};
-const dur=s=>{s=Math.max(0,Math.round(s));return pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)};
+const dur=s=>{s=Math.max(0,s);return pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)};
 const dist=(r,sec)=>r.status==='active'?r.base+r.speed/3600*Math.max(0,sec-r.anchor):r.base;
-const distNow=r=>dist(r,nowMs()/1000);
 function parseHMS(v){
-  v=String(v||'').trim(); if(!v) return null;
-  let h,m,s=0;
-  if(v.indexOf(':')>=0){
-    const p=v.split(':').map(x=>x.trim());
-    if(p.length<1||p.length>3||p.some(x=>!/^\d+$/.test(x))) return null;
-    h=+p[0]; m=p.length>1?+p[1]:0; s=p.length>2?+p[2]:0;
-  }else{
-    const d=v.replace(/\D/g,'');
-    if(d.length<1||d.length>6) return null;
-    if(d.length<=2){ h=+d; }
-    else if(d.length<=4){ h=+d.slice(0,-2); m=+d.slice(-2); }
-    else { h=+d.slice(0,-4); m=+d.slice(-4,-2); s=+d.slice(-2); }
-  }
+  const d=v.replace(/\D/g,''); if(d.length!==6) return null;
+  const h=+d.slice(0,2),m=+d.slice(2,4),s=+d.slice(4);
   return (h<24&&m<60&&s<60)?[h,m,s]:null;
 }
 
 /* ---------- bunyi ---------- */
-let actx=null, audioWarmed=false;
+let actx=null;
 function unlockAudio(){
   try{
     if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
     if(actx.state==='suspended') actx.resume();
-    if(!audioWarmed){ // iOS butuh satu bunyi senyap dari gestur pengguna
-      const b=actx.createBuffer(1,1,22050), s=actx.createBufferSource();
-      s.buffer=b; s.connect(actx.destination); s.start(0); audioWarmed=true;
-    }
   }catch(e){}
 }
-function tone(delaySec,ms,freq,vol){
+function beep(ms){
+  if(S.mute) return;
+  try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){}
   if(!actx) return;
   try{
-    const t=actx.currentTime+Math.max(0,delaySec), o=actx.createOscillator(), g=actx.createGain();
-    o.type='square'; o.frequency.value=freq||2800;
+    const t=actx.currentTime, o=actx.createOscillator(), g=actx.createGain();
+    o.type='square'; o.frequency.value=2800;
     g.gain.setValueAtTime(0,t);
-    g.gain.linearRampToValueAtTime(vol||0.3,t+0.005);
-    g.gain.setValueAtTime(vol||0.3,t+ms/1000-0.01);
+    g.gain.linearRampToValueAtTime(0.3,t+0.005);
+    g.gain.setValueAtTime(0.3,t+ms/1000-0.01);
     g.gain.linearRampToValueAtTime(0,t+ms/1000);
     o.connect(g); g.connect(actx.destination);
     o.start(t); o.stop(t+ms/1000+0.02);
   }catch(e){}
 }
-function beep(ms,freq){
-  if(S.mute) return;
-  try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){}
-  tone(0,ms||200,freq||2800,0.3);
-}
-function startAlert(){
-  const el=$('live');
-  el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
-  setTimeout(()=>el.classList.remove('flash'),2400);
-  if(S.mute) return;
-  try{ if(navigator.vibrate) navigator.vibrate([160,90,160,90,320]); }catch(e){}
-  tone(0,160,1400,0.32); tone(0.22,160,1400,0.32); tone(0.44,420,1600,0.36);
-}
 
 /* ---------- toast ---------- */
 let tt;
-function toast(m,ms){
+function toast(m){
   const t=$('toast'); t.textContent=m; t.classList.add('show');
-  clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),ms||2800);
+  clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2800);
 }
 
 /* ---------- konfirmasi dalam halaman (confirm() bawaan sering diblokir di APK/WebView) ---------- */
@@ -335,45 +273,39 @@ function clearAll(){
   S.routes=Array.from({length:N},blank); S.sel=0; save(); loadForm(); render();
 }
 function runSchedules(sec){
-  let changed=false; const activated=[];
+  let changed=false;
   S.routes.forEach((r,i)=>{ // jadwal kedaluwarsa (>6 jam terlewat) dibuang
-    if(r.status==='wait'&&sec-r.startAt>LATE_LIMIT){
-      S.routes[i]=blank(); changed=true;
-      toast('Jadwal sub '+L(i)+' kedaluwarsa dan dihapus');
-    }
+    if(r.status==='wait'&&sec-r.startAt>6*3600){ S.routes[i]=blank(); changed=true; toast('Jadwal sub '+L(i)+' kedaluwarsa dan dihapus'); }
   });
   const due=S.routes.map((r,i)=>({r,i})).filter(o=>o.r.status==='wait'&&sec>=o.r.startAt)
     .sort((a,b)=>a.r.startAt-b.r.startAt);
-  due.forEach(o=>{ activate(o.i,o.r.startAt); activated.push(o.i); changed=true; });
+  due.forEach(o=>{ activate(o.i,o.r.startAt); changed=true; });
   // batas 99.99 km -> reset semua (sama seperti kode Arduino)
   const a=S.routes.findIndex(r=>r.status==='active');
   if(a>=0&&dist(S.routes[a],sec)>=MAXKM){
-    clearAll(); beep(500); toast('Mencapai '+MAXKM+' km, semua sub di-reset');
-    return {changed:true,activated:[]};
+    clearAll(); beep(500); toast('Mencapai '+MAXKM+' km, semua sub di-reset'); return true;
   }
   if(changed) save();
-  return {changed,activated};
+  return changed;
 }
 
 /* ---------- tampilan ---------- */
-function setText(node,txt){ if(node&&node.textContent!==txt) node.textContent=txt; }
 function liveIndex(){
   let i=S.routes.findIndex(r=>r.status==='active'); if(i>=0) return i;
   let best=-1;
   S.routes.forEach((r,j)=>{ if(r.status==='wait'&&(best<0||r.startAt<S.routes[best].startAt)) best=j; });
   return best>=0?best:S.sel;
 }
-let liveSig='', gridSig='', gridDist=[];
-function renderClock(sec){
-  setText($('clock'),hms(sec));
-  setText($('clkSub'),S.offset===0?'Jam perangkat':
-    'Disetel manual, selisih '+(S.offset>=0?'+':'')+(S.offset/1000).toFixed(1)+' dtk dari jam perangkat');
-}
-function renderLive(){
-  const i=liveIndex(), r=S.routes[i], live=$('live'), sec=nowMs()/1000;
-  if(liveSig!==r.status){ live.className='card live '+r.status; liveSig=r.status; }
-  setText($('lvBadge'),L(i));
-  setText($('lvChip'),{empty:'KOSONG',wait:'STANDBY',active:'AKTIF',stopped:'SELESAI'}[r.status]);
+function render(){
+  const sec=nowSec();
+  $('clock').textContent=hms(sec);
+  $('clkSub').textContent=S.offset===0?'Jam perangkat':
+    'Disetel manual, selisih '+(S.offset>=0?'+':'')+(S.offset/1000).toFixed(1)+' dtk dari jam perangkat';
+
+  const i=liveIndex(), r=S.routes[i], live=$('live');
+  live.className='card live '+r.status;
+  $('lvBadge').textContent=L(i);
+  $('lvChip').textContent={empty:'KOSONG',wait:'STANDBY',active:'AKTIF',stopped:'SELESAI'}[r.status];
   let main='0.000',unit='km',info='',sub2='';
   if(r.status==='active'){
     main=dist(r,sec).toFixed(3); info='Kec '+r.speed+' km/jam';
@@ -386,46 +318,27 @@ function renderLive(){
   }else{
     sub2='Belum ada data. Isi form di bawah.';
   }
-  setText($('lvMain'),main); setText($('lvUnit'),unit);
-  setText($('lvInfo'),info); setText($('lvSub2'),sub2);
-  $('lvStop').hidden=r.status!=='active';
-}
-function renderGrid(sec,force){
-  const sig=S.routes.map(r=>r.status+'|'+r.speed+'|'+r.startAt).join(';')+'|'+S.sel;
-  if(force||sig!==gridSig){
-    gridSig=sig;
-    $('grid').innerHTML=S.routes.map((r,k)=>{
-      const st={empty:'Kosong',wait:'Standby',active:'Aktif',stopped:'Selesai'}[r.status];
-      const v=r.status==='empty'?'—':r.speed+' km/j';
-      const d=r.status==='empty'?'':(r.status==='wait'?hms(r.startAt):dist(r,sec).toFixed(3));
-      return '<button type="button" class="rc mono '+r.status+(k===S.sel?' sel':'')+'" data-i="'+k+'">'+
-        '<span class="rl">'+L(k)+'</span><span class="rs">'+st+'</span>'+
-        '<span class="rv">'+v+'</span><span class="rd">'+d+'</span></button>';
-    }).join('');
-    gridDist=Array.from($('grid').querySelectorAll('.rd'));
-  }
-  // perbarui hanya angka jarak sub yang aktif (hindari render ulang seluruh grid)
-  S.routes.forEach((r,k)=>{
-    if(r.status==='active'&&gridDist[k]) setText(gridDist[k],dist(r,nowMs()/1000).toFixed(3));
-  });
-}
-function render(){
-  const sec=nowSec();
-  renderClock(sec); renderLive(); renderGrid(sec,true);
+  $('lvMain').textContent=main; $('lvUnit').textContent=unit;
+  $('lvInfo').textContent=info; $('lvSub2').textContent=sub2;
+
+  $('grid').innerHTML=S.routes.map((r,k)=>{
+    const st={empty:'Kosong',wait:'Standby',active:'Aktif',stopped:'Selesai'}[r.status];
+    const v=r.status==='empty'?'—':r.speed+' km/j';
+    const d=r.status==='empty'?'':(r.status==='wait'?hms(r.startAt):dist(r,sec).toFixed(3));
+    return '<button class="rc mono '+r.status+(k===S.sel?' sel':'')+'" data-i="'+k+'">'+
+      '<span class="rl">'+L(k)+'</span><span class="rs">'+st+'</span>'+
+      '<span class="rv">'+v+'</span><span class="rd">'+d+'</span></button>';
+  }).join('');
 }
 
 /* ---------- form ---------- */
 function formMode(){
-  const d=parseInt(String($('fDelay').value).replace(/\D/g,''),10)||0;
+  const d=parseInt($('fDelay').value,10)||0;
   $('gStart').style.display=d>0?'none':'';
   $('bGo').textContent=d>0?'Mulai sekarang':'Jadwalkan mulai';
-  if(d>0){
-    const sp=parseFloat(String($('fSpeed').value).replace(',','.'))||0;
-    $('fHint').textContent='Sub langsung berjalan. Jarak awal = kecepatan × delay ÷ 60'+
-      (sp>0?' = '+(sp*d/60).toFixed(3)+' km':'')+'.';
-  }else{
-    $('fHint').textContent='Sub menunggu jam mulai, lalu otomatis aktif dan menggantikan sub yang sedang berjalan.';
-  }
+  $('fHint').textContent=d>0
+    ?'Sub langsung berjalan. Jarak awal = kecepatan × delay ÷ 60.'
+    :'Sub menunggu jam mulai, lalu otomatis aktif dan menggantikan sub yang sedang berjalan.';
 }
 function loadForm(){
   const r=S.routes[S.sel];
@@ -441,21 +354,18 @@ function loadForm(){
 async function submit(){
   unlockAudio();
   const i=S.sel;
-  const speed=parseFloat(String($('fSpeed').value).replace(',','.').replace(/[^\d.]/g,''));
-  const delay=parseInt(String($('fDelay').value).replace(/\D/g,''),10)||0;
+  const speed=parseFloat($('fSpeed').value.replace(',','.'));
+  const delay=parseInt($('fDelay').value,10)||0;
   if(!(speed>0)){ toast('Isi kecepatan (km/jam) lebih dari 0'); $('fSpeed').focus(); return; }
-  if(speed>MAX_SPEED){ toast('Kecepatan maksimal '+MAX_SPEED+' km/jam'); $('fSpeed').focus(); return; }
-  if(delay>MAX_DELAY){ toast('Delay maksimal '+MAX_DELAY+' menit'); $('fDelay').focus(); return; }
-  if(delay>0&&speed*delay/60>=MAXKM){ toast('Jarak awal sudah mencapai batas '+MAXKM+' km. Kurangi delay atau kecepatan.'); return; }
+  if(delay<0){ toast('Delay tidak boleh negatif'); return; }
   let at=null;
   if(delay===0){
     const t=parseHMS($('fStart').value);
-    if(!t){ toast('Jam mulai tidak valid. Contoh: 07:30 atau 07:30:00'); $('fStart').focus(); return; }
+    if(!t){ toast('Jam mulai harus HH:MM:SS yang valid'); $('fStart').focus(); return; }
     const d=new Date(nowMs()); d.setHours(t[0],t[1],t[2],0);
     at=Math.floor(d.getTime()/1000);
     const late=nowSec()-at;
-    if(late>LATE_LIMIT){ toast('Jam mulai lebih dari 6 jam yang lalu. Periksa jam dan tanggal.'); return; }
-    if(late>LATE_SOFT&&!(await ask('Jam mulai sudah lewat '+dur(late)+'. Mulai langsung dan hitung jarak dari jam itu?','Mulai'))) return;
+    if(late>0&&!(await ask('Jam mulai sudah lewat '+late+' detik. Mulai langsung dan hitung jarak dari jam itu?','Mulai'))) return;
   }
   // hanya sub yang sedang AKTIF yang perlu konfirmasi; sub standby/selesai langsung dikoreksi
   if(S.routes[i].status==='active'&&!(await ask('Sub '+L(i)+' sedang aktif. Timpa dengan data baru?','Timpa'))) return;
@@ -479,72 +389,45 @@ function onSecond(sec){
   let b=false;
   S.routes.forEach(r=>{ if(r.status==='wait'){ const d=r.startAt-sec; if(d>=1&&d<=3) b=true; } });
   if(b) beep(200);
+  render();
 }
 function tick(){
   if(!started||locked) return;
   checkTrial();
   if(locked) return;
   const sec=nowSec();
-  const res=runSchedules(sec);
-  renderLive();
-  if(res.activated.length) startAlert();
-  if(sec!==lastSec){ lastSec=sec; renderClock(sec); renderGrid(sec,false); onSecond(sec); }
-  else if(res.changed) render();
+  const changed=runSchedules(sec);
+  if(sec!==lastSec){ lastSec=sec; onSecond(sec); }
+  else if(changed) render();
 }
 
 /* ---------- layar tetap menyala ---------- */
 let wl=null, touched=false;
 async function setWake(on){
   try{
-    if(on){
-      if(!('wakeLock' in navigator)) return false;
-      if(wl) return true;
-      wl=await navigator.wakeLock.request('screen');
-      wl.addEventListener('release',()=>{wl=null});
-      return true;
-    }
-    if(wl){ await wl.release(); wl=null; }
-    return true;
-  }catch(e){ wl=null; return false; }
+    if(on){ if(wl) return; wl=await navigator.wakeLock.request('screen'); wl.addEventListener('release',()=>{wl=null}); }
+    else if(wl){ await wl.release(); wl=null; }
+  }catch(e){ wl=null; }
 }
 function uiToggles(){
   $('bSound').textContent='Suara: '+(S.mute?'Mati':'Hidup');
-  $('bSound').setAttribute('aria-pressed',String(!S.mute));
   $('bWake').textContent='Layar nyala: '+(S.wake?'Ya':'Tidak');
-  $('bWake').setAttribute('aria-pressed',String(!!S.wake));
 }
 
 /* ---------- event ---------- */
-function fmtTime(el){
-  const d=el.value.replace(/\D/g,'').slice(0,6);
-  el.value=d.length<=2?d:d.length<=4?d.slice(0,-2)+':'+d.slice(-2):
-    d.slice(0,-4)+':'+d.slice(-4,-2)+':'+d.slice(-2);
+function bindTime(el){
+  el.addEventListener('input',()=>{
+    const d=el.value.replace(/\D/g,'').slice(0,6);
+    el.value=d.length>4?d.slice(0,2)+':'+d.slice(2,4)+':'+d.slice(4):d.length>2?d.slice(0,2)+':'+d.slice(2):d;
+  });
 }
-function bindTime(el){ el.addEventListener('input',()=>fmtTime(el)); }
 bindTime($('fStart')); bindTime($('cIn'));
-$('fSpeed').addEventListener('input',()=>{
-  const v=$('fSpeed').value.replace(/[^\d.,]/g,'');
-  if(v!==$('fSpeed').value) $('fSpeed').value=v;
-  formMode();
-});
-$('fDelay').addEventListener('input',()=>{
-  const v=$('fDelay').value.replace(/\D/g,'').slice(0,4);
-  if(v!==$('fDelay').value) $('fDelay').value=v;
-  formMode();
-});
-$('form').addEventListener('submit',e=>{ e.preventDefault(); submit(); });
-$('bNow').addEventListener('click',()=>{ $('fStart').value=hms(nowSec()); $('fStart').focus(); });
+$('fDelay').addEventListener('input',formMode);
+$('bGo').addEventListener('click',submit);
 $('bNext').addEventListener('click',()=>{ S.sel=(S.sel+1)%N; save(); loadForm(); render(); $('fSpeed').focus(); });
 $('bReset').addEventListener('click',async()=>{
   if(S.routes[S.sel].status==='active'&&!(await ask('Reset sub '+L(S.sel)+' yang sedang aktif?','Reset'))) return;
   S.routes[S.sel]=blank(); save(); loadForm(); render(); toast('Sub '+L(S.sel)+' di-reset');
-});
-$('lvStop').addEventListener('click',async()=>{
-  const i=S.routes.findIndex(r=>r.status==='active'); if(i<0) return;
-  const d=distNow(S.routes[i]).toFixed(3);
-  if(!(await ask('Hentikan sub '+L(i)+' di '+d+' km? Hitungan jarak berhenti, data tetap ada.','Hentikan'))) return;
-  const r=S.routes[i]; r.base=distNow(r); r.status='stopped';
-  save(); render(); toast('Sub '+L(i)+' dihentikan di '+r.base.toFixed(3)+' km');
 });
 $('bAll').addEventListener('click',async()=>{ if(await ask('Reset SEMUA sub? Semua data dan jarak akan dihapus.','Reset semua')){ clearAll(); toast('Semua sub di-reset'); } });
 $('grid').addEventListener('click',e=>{
@@ -552,40 +435,22 @@ $('grid').addEventListener('click',e=>{
   S.sel=+b.dataset.i; save(); loadForm(); render();
 });
 $('bTest').addEventListener('click',()=>{ unlockAudio(); beep(300); if(S.mute) toast('Suara sedang dimatikan'); });
-$('bSound').addEventListener('click',()=>{ unlockAudio(); S.mute=!S.mute; save(); uiToggles(); toast(S.mute?'Suara dimatikan':'Suara dihidupkan'); });
-$('bWake').addEventListener('click',async()=>{
-  if(S.wake){
-    S.wake=false; save(); uiToggles(); await setWake(false); toast('Layar boleh mati otomatis');
-  }else{
-    S.wake=true; const ok=await setWake(true); save(); uiToggles();
-    if(!ok) toast('Browser ini tidak mendukung layar selalu nyala. Atur waktu layar mati lebih lama di pengaturan HP.',4500);
-  }
-});
+$('bSound').addEventListener('click',()=>{ unlockAudio(); S.mute=!S.mute; save(); uiToggles(); });
+$('bWake').addEventListener('click',()=>{ S.wake=!S.wake; save(); uiToggles(); setWake(S.wake); });
 
 function busy(){ return S.routes.some(r=>r.status==='active'||r.status==='wait'); }
-const CLKWARN='Ada sub aktif/menunggu. Jam baru akan dipakai. Jarak sub aktif mengikuti selisih jam (maju = jarak bertambah, mundur = jarak tidak berkurang), dan jadwal mengikuti jam baru. Lanjut?';
-function applyClockOffset(off){
-  const oldSec=nowSec();
-  const newSec=Math.floor((Date.now()+off)/1000);
-  // Ikuti rumus Arduino: totalDistance += (kecepatan / 3600) × selisih waktu.
-  // Jam maju: anchor dibiarkan, jadi jarak langsung bertambah seperti modul.
-  // Jam mundur: jarak yang sudah ditempuh dikunci dulu agar tidak berkurang.
-  if(newSec<oldSec) S.routes.forEach(r=>{
-    if(r.status==='active'){ r.base=dist(r,oldSec); r.anchor=newSec; }
-  });
-  S.offset=off;
-}
+const CLKWARN='Ada sub aktif/menunggu. Mengubah jam menggeser hitungan. Lanjut?';
 $('cSet').addEventListener('click',async()=>{
   const t=parseHMS($('cIn').value);
   if(!t){ toast('Isi jam yang valid (HH:MM:SS)'); return; }
   if(busy()&&!(await ask(CLKWARN,'Lanjut'))) return;
   const d=new Date(); d.setHours(t[0],t[1],t[2],0);
-  applyClockOffset(d.getTime()-Date.now()); save(); render(); toast('Jam disetel');
+  S.offset=d.getTime()-Date.now(); save(); render(); toast('Jam disetel');
 });
 $('cDev').addEventListener('click',async()=>{
   if(S.offset===0){ toast('Sudah memakai jam perangkat'); return; }
   if(busy()&&!(await ask(CLKWARN,'Lanjut'))) return;
-  applyClockOffset(0); save(); render(); toast('Memakai jam perangkat');
+  S.offset=0; save(); render(); toast('Memakai jam perangkat');
 });
 
 document.addEventListener('pointerdown',()=>{
@@ -593,10 +458,7 @@ document.addEventListener('pointerdown',()=>{
   if(!touched){ touched=true; if(S.wake) setWake(true); }
 },{passive:true});
 document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible'){
-    unlockAudio(); tick();
-    if(S.wake&&touched) setWake(true);
-  }
+  if(document.visibilityState==='visible'){ tick(); if(S.wake&&touched) setWake(true); }
 });
 
 /* ---------- PWA: service worker + tombol pasang ---------- */
@@ -604,21 +466,13 @@ if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
 }
 let installEvt=null;
-const isiOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
-if(isiOS&&!isStandalone()){ $('bInstall').hidden=false; $('bInstall').textContent='Cara pasang'; }
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault(); installEvt=e; $('bInstall').hidden=false; $('bInstall').textContent='Pasang aplikasi';
-});
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; $('bInstall').hidden=false; });
 window.addEventListener('appinstalled',()=>{ installEvt=null; $('bInstall').hidden=true; toast('Aplikasi terpasang'); });
 $('bInstall').addEventListener('click',async()=>{
-  if(installEvt){
-    installEvt.prompt();
-    try{ await installEvt.userChoice; }catch(e){}
-    installEvt=null; $('bInstall').hidden=true; return;
-  }
-  toast(isiOS?'Di iPhone: tombol Bagikan → "Tambah ke Layar Utama".':
-    'Buka menu browser (⋮) → "Tambahkan ke layar utama" atau "Instal aplikasi".',6000);
+  if(!installEvt) return;
+  installEvt.prompt();
+  try{ await installEvt.userChoice; }catch(e){}
+  installEvt=null; $('bInstall').hidden=true;
 });
 
 /* ---------- lisensi / aktivasi (kode terikat ke satu perangkat) ---------- */
@@ -681,11 +535,9 @@ async function verifyCode(code,devId,cfg){
     if(c.kind==='short'){
       if(!cfg||!cfg.kodeKey) return 'nokey';
       const key=await crypto.subtle.importKey('raw',b64u2bytes(cfg.kodeKey),{name:'HMAC',hash:'SHA-256'},false,['sign']);
-      const mac=new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode('CM1S|'+devId)));
-      if(mac2code(mac)===c.v) return 'ok';
       const N=CA.indexOf(c.v[0])*32+CA.indexOf(c.v[1]);   // 2 karakter pertama = tanggal berakhir
       const mac2=new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode('CM1T|'+devId+'|'+N)));
-      return mac2code(mac2).slice(0,14)===c.v.slice(2)?'trial:'+N:'bad';
+      return mac2code(mac2).slice(0,14)===c.v.slice(2)?'trial:'+N:'badshort';
     }
     const pk=cfg&&cfg.publicKey;
     if(!pk||!pk.x||!pk.y) return 'nokey';
@@ -711,6 +563,7 @@ async function showFp(cfg){
 }
 const LMSG={
   nocrypto:'Aktivasi butuh koneksi aman (HTTPS). Buka dari alamat https atau dari aplikasi yang sudah terpasang.',
+  badshort:'Kode 16 karakter ini tidak berlaku. Kode permanen berupa kode panjang (sekitar 86 karakter), dan kode percobaan harus untuk ID perangkat ini. Hubungi admin dan kirim ID perangkat di atas.',
   bad:'Kode tidak cocok untuk perangkat ini. Pastikan kode ditempel lengkap dan admin memakai ID perangkat yang sama dengan yang tampil di sini.'
 };
 const lmsg=t=>{ $('lMsg').textContent=t; };
@@ -753,7 +606,6 @@ function unlock(devId,r){
 }
 async function gate(){
   const devId=getDeviceId();
-  $('verInfo').textContent='Versi '+APP_VER;
   $('devId').textContent=fmtId(devId);
   let cfg=await loadConfig();
   cfgRef=cfg;
@@ -782,7 +634,7 @@ async function gate(){
   if(saved){
     const r=await verifyCode(saved,devId,cfg);
     if(r==='ok'||String(r).indexOf('trial:')===0){ unlock(devId,r); return; }
-    if(r==='nokey') lmsg(nokeyMsg()); else if(r==='nocrypto') lmsg(LMSG[r]);
+    if(r==='nokey') lmsg(nokeyMsg()); else if(LMSG[r]) lmsg(LMSG[r]);
   }
 }
 
@@ -799,11 +651,7 @@ $('bBug').addEventListener('click',()=>{
 });
 
 /* ---------- mulai ---------- */
-function startApp(){
-  if(started) return; started=true;
-  $('verInfo').textContent='Versi '+APP_VER;
-  uiToggles(); loadForm(); render(); setInterval(tick,200);
-}
+function startApp(){ if(started) return; started=true; uiToggles(); loadForm(); render(); setInterval(tick,100); }
 gate();
 })();
 </script>
